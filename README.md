@@ -1,19 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>StudyMate App Documentation</title>
-  <style>
-    body { font-family: Arial, sans-serif; line-height: 1.6; padding: 20px; background: #f9f9f9; }
-    pre { background: #eee; padding: 10px; overflow-x: auto; }
-    code { font-family: monospace; color: #c7254e; }
-    h1, h2, h3, h4 { color: #333; }
-    h1 { border-bottom: 2px solid #333; padding-bottom: 5px; }
-    section { margin-bottom: 30px; }
-  </style>
-</head>
-<body>
 
 <h1>StudyMate App Documentation</h1>
 
