@@ -1,14 +1,3 @@
-<title>StudyMate README</title>
-<style>
-  body { font-family: Arial, sans-serif; line-height: 1.6; margin: 20px; }
-  h1, h2, h3, h4 { margin-top: 1.2em; }
-  pre { background: #f4f4f4; padding: 10px; overflow-x: auto; }
-  code { background: #f4f4f4; padding: 2px 4px; }
-  ul { margin-left: 20px; }
-</style>
-</head>
-<body>
-
 <h1>StudyMate – Full Stack Developer Assignment</h1>
 
 <p><strong>StudyMate</strong> is an AI-powered learning platform that allows students to browse courses and educational materials. An integrated AI assistant provides course recommendations, answers user questions, and helps explore content.</p>
