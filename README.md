@@ -1,157 +1,169 @@
+<title>StudyMate README</title>
+<style>
+  body { font-family: Arial, sans-serif; line-height: 1.6; margin: 20px; }
+  h1, h2, h3, h4 { margin-top: 1.2em; }
+  pre { background: #f4f4f4; padding: 10px; overflow-x: auto; }
+  code { background: #f4f4f4; padding: 2px 4px; }
+  ul { margin-left: 20px; }
+</style>
+</head>
+<body>
 
-<h1>StudyMate App Documentation</h1>
+<h1>StudyMate – Full Stack Developer Assignment</h1>
 
-<p>StudyMate is a full-stack web application built with <strong>React</strong> for the front-end and <strong>FastAPI</strong> for the back-end. 
-It allows users to explore, filter, and learn about programming courses and interact with an AI assistant for guidance.</p>
+<p><strong>StudyMate</strong> is an AI-powered learning platform that allows students to browse courses and educational materials. An integrated AI assistant provides course recommendations, answers user questions, and helps explore content.</p>
 
-<hr>
-
-<h2>Backend (<code>backend/</code> directory)</h2>
-
-<section>
-<h3>1. <code>main.py</code></h3>
-<p><strong>Purpose:</strong> Entry point of the backend API.</p>
-<p><strong>Responsibilities:</strong></p>
+<h2>Table of Contents</h2>
 <ul>
-  <li>Initialize FastAPI app.</li>
-  <li>Add CORS middleware to allow requests from React frontend (<code>localhost:3000</code>).</li>
-  <li>Include routes for courses (<code>courses.router</code>) and AI assistant (<code>/api/ask</code>).</li>
-  <li>Initialize the database tables.</li>
-  <li>Define models for request/response of AI chat endpoint (<code>ChatRequest</code>, <code>ChatResponse</code>).</li>
-  <li>Provide a health check endpoint (<code>/health</code>) for monitoring.</li>
+  <li><a href="#project-overview">Project Overview</a></li>
+  <li><a href="#folder-structure">Folder Structure</a></li>
+  <li><a href="#frontend">Frontend</a></li>
+  <li><a href="#backend">Backend</a></li>
+  <li><a href="#technical-stack">Technical Stack</a></li>
+  <li><a href="#devops-setup">DevOps & Setup</a></li>
 </ul>
-<p><strong>Notes:</strong> Handles communication between the AI (OpenAI API) and the frontend, including fetching courses for context.</p>
-</section>
 
-<section>
-<h3>2. <code>routes/courses.py</code></h3>
-<p><strong>Purpose:</strong> Defines REST API endpoints related to courses.</p>
+<h2 id="project-overview">Project Overview</h2>
+<p>StudyMate allows users to:</p>
 <ul>
-  <li>Fetch all courses (<code>GET /courses</code>).</li>
-  <li>Fetch a single course by ID (<code>GET /courses/{id}</code>).</li>
-  <li>Optional endpoints for adding/updating courses if needed.</li>
+  <li>Browse courses by category, name, or description.</li>
+  <li>Filter courses by difficulty, category, and search terms.</li>
+  <li>Get AI-powered assistance for course recommendations and comparisons.</li>
+  <li>View detailed course information through responsive cards and modals.</li>
 </ul>
-<p>Handles CRUD operations on the course database table.</p>
-</section>
 
-<section>
-<h3>3. <code>db.py</code></h3>
-<p><strong>Purpose:</strong> Database connection and initialization.</p>
-<ul>
-  <li>Configure SQLAlchemy engine and session.</li>
-  <li>Define <code>init_db()</code> to create all tables if they don’t exist.</li>
-  <li>Provide <code>get_db()</code> dependency for FastAPI routes.</li>
-</ul>
-</section>
-
-<section>
-<h3>4. <code>models.py</code></h3>
-<p><strong>Purpose:</strong> Defines database models using SQLAlchemy.</p>
-<p>Example: <code>Course</code> model with attributes: <code>id, name, description, price, image, duration, difficulty, category, instructor, rating, enrollment_count, time_stamp</code>.</p>
-</section>
-
-<section>
-<h3>5. <code>ai.py</code> (optional)</h3>
-<p><strong>Purpose:</strong> AI assistant logic.</p>
-<ul>
-  <li>Handles <code>/api/ask</code> POST requests from the frontend.</li>
-  <li>Uses OpenAI API to generate answers.</li>
-  <li>Optionally fetches courses from the database to provide context to AI.</li>
-</ul>
-</section>
-
-<section>
-<h3>6. <code>.env</code></h3>
-<p><strong>Purpose:</strong> Store environment variables securely.</p>
-<ul>
-  <li><code>OPENAI_API_KEY</code> → API key for OpenAI.</li>
-  <li><code>DATABASE_URL</code> → Connection string for your database.</li>
-</ul>
-<p>Never commit this file to GitHub.</p>
-</section>
-
-<hr>
-
-<h2>Frontend (<code>src/</code> directory)</h2>
-
-<section>
-<h3>1. <code>components/CourseCard.tsx</code></h3>
-<p>Displays a single course in a card format with image, name, description, instructor, rating, and price. Clickable to open <code>CourseModal</code>.</p>
-</section>
-
-<section>
-<h3>2. <code>components/CourseModal.tsx</code></h3>
-<p>Shows detailed course info in a popup/modal: image, instructor, rating, enrollment, description, duration, difficulty, last updated. Uses Bootstrap Modal.</p>
-</section>
-
-<section>
-<h3>3. <code>components/FilterBar.tsx</code></h3>
-<p>Filter courses by category. Displays buttons for all categories including “All”. Shows count of courses in each category. Calls a callback when a category is selected.</p>
-</section>
-
-<section>
-<h3>4. <code>components/SearchBar.tsx</code></h3>
-<p>Input field to search courses by name or description. Updates parent state via <code>onSearchChange</code>.</p>
-</section>
-
-<section>
-<h3>5. <code>components/AIAssistant.tsx</code></h3>
-<p>Chat interface for AI assistant. Maintains chat messages, sends questions to backend <code>/api/ask</code>, displays AI responses as chat bubbles, shows loading indicator, and auto-scrolls to the bottom.</p>
-</section>
-
-<section>
-<h3>6. <code>pages/Home.tsx</code></h3>
-<p>Main page of the app displaying courses. Fetches courses from backend, filters them by category and search term, shows course cards in a grid, and opens <code>CourseModal</code> when a course is selected. Integrates <code>SearchBar</code> and <code>FilterBar</code>.</p>
-</section>
-
-<section>
-<h3>7. <code>services/api.ts</code></h3>
-<p>API helper functions to fetch courses and interact with backend endpoints. Keeps HTTP requests centralized.</p>
-</section>
-
-<section>
-<h3>8. <code>index.tsx / App.tsx</code></h3>
-<p>App entry point. Mounts <code>Home</code> component and wraps app with global providers if needed.</p>
-</section>
-
-<section>
-<h3>9. <code>App.css</code></h3>
-<p>Custom styling. Mostly uses Bootstrap with optional overrides.</p>
-</section>
-
-<section>
-<h3>10. <code>types.d.ts</code> (optional)</h3>
-<p>TypeScript interfaces for shared types (e.g., <code>Course</code>).</p>
-</section>
-
-<hr>
-
-<h2>Folder Structure Overview</h2>
+<h2 id="folder-structure">Folder Structure</h2>
 <pre>
 backend/
-  main.py
-  routes/
-    courses.py
-  db.py
-  models.py
-  ai.py
-  .env
-
-frontend/src/
-  components/
-    CourseCard.tsx
-    CourseModal.tsx
-    FilterBar.tsx
-    SearchBar.tsx
-    AIAssistant.tsx
-  pages/
-    Home.tsx
-  services/
-    api.ts
-  App.tsx
-  index.tsx
-  App.css
+├─ app/
+│  ├─ main.py
+│  ├─ db.py
+│  ├─ models.py
+│  ├─ schemas.py
+│  └─ routes/
+│     └─ courses.py
+frontend/
+├─ src/
+│  ├─ components/
+│  │  ├─ CourseCard.tsx
+│  │  ├─ CourseModal.tsx
+│  │  ├─ FilterBar.tsx
+│  │  └─ SearchBar.tsx
+│  ├─ pages/
+│  │  └─ Home.tsx
+│  └─ services/api.ts
 </pre>
 
+<h2 id="frontend">Frontend</h2>
+
+<h3 id="home-component">Home Component</h3>
+<p>Displays courses in a responsive grid and handles fetching, filtering, and search using React hooks:</p>
+<pre>
+const [courses, setCourses] = useState&lt;Course[]&gt;([]);
+const [selectedCategory, setSelectedCategory] = useState&lt;string&gt;("All");
+const [searchTerm, setSearchTerm] = useState&lt;string&gt;("");
+const [selectedCourse, setSelectedCourse] = useState&lt;Course | null&gt;(null);
+</pre>
+
+<p>Filters courses by category and search term and displays them using <code>CourseCard</code> components. Clicking a card opens <code>CourseModal</code>.</p>
+
+<h3 id="search--filter">Search & Filter</h3>
+<p><strong>SearchBar</strong> filters courses by name or description (case-insensitive).<br>
+<strong>FilterBar</strong> filters courses by category and displays counts:</p>
+<pre>
+const categoryCounts: Record&lt;string, number&gt; = courses.reduce((acc, course) =&gt; {
+  acc[course.category] = (acc[course.category] || 0) + 1;
+  return acc;
+}, {});
+const categories = ["All", ...Object.keys(categoryCounts)];
+</pre>
+
+<h3 id="coursecard--coursemodal">CourseCard & CourseModal</h3>
+<ul>
+  <li>Displays course image, title, description, price, duration, difficulty, instructor, rating, enrollment, and category badge.</li>
+  <li>Clicking a card opens a modal with detailed course information.</li>
+</ul>
+
+<h3 id="ai-assistant">AI Assistant</h3>
+<ul>
+  <li>Chat interface for users to ask course-related questions.</li>
+  <li>Sends messages to backend endpoint <code>/api/ask</code> using <code>axios</code>.</li>
+  <li>Distinguishes between user and AI messages.</li>
+</ul>
+
+<pre>
+interface Message {
+  text: string;
+  sender: "user" | "ai";
+}
+</pre>
+
+<h2 id="backend">Backend</h2>
+
+<h3 id="models--schemas">Models & Schemas</h3>
+<p>SQLAlchemy models represent the database tables. Pydantic schemas validate and serialize responses:</p>
+<pre>
+class CourseSchema(BaseModel):
+    id: int
+    name: str
+    description: str
+    price: float
+    image: str
+    duration: int
+    difficulty: str
+    category: str
+    instructor: str | None
+    enrollment_count: int
+    rating: float
+
+    class Config:
+        from_attributes = True
+</pre>
+
+<h3 id="database">Database</h3>
+<ul>
+  <li>PostgreSQL is used as backend.</li>
+  <li>SQLAlchemy provides ORM and session management.</li>
+  <li><code>get_db()</code> provides DB session per request.</li>
+  <li><code>init_db(Base)</code> initializes tables.</li>
+</ul>
+
+<h3 id="api-endpoints">API Endpoints</h3>
+<ul>
+  <li><strong>Courses</strong>
+    <ul>
+      <li>GET /courses → Fetch all courses with optional filters: <code>search</code>, <code>category</code>, <code>difficulty</code>, <code>sort_by</code>, <code>order</code>.</li>
+      <li>GET /courses/{course_id} → Fetch course by ID.</li>
+    </ul>
+  </li>
+  <li><strong>Categories</strong>
+    <ul>
+      <li>GET /categories → List all categories with counts and average rating.</li>
+      <li>GET /categories/{category}/second-highest → Retrieve second-highest rated course in a category.</li>
+    </ul>
+  </li>
+  <li><strong>AI Chat</strong>
+    <ul>
+      <li>POST /api/ask → Send message to AI assistant. Optional <code>course_context</code> filters by course ID.</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="technical-stack">Technical Stack</h2>
+<ul>
+  <li>Frontend: React.js + TypeScript, Bootstrap</li>
+  <li>Backend: FastAPI, SQLAlchemy, Pydantic, OpenAI API</li>
+  <li>Database: PostgreSQL</li>
+  <li>AI/LLM: OpenAI API integration</li>
+</ul>
+
+<h2 id="devops-setup">DevOps & Setup</h2>
+<ul>
+  <li>Docker Compose services: PostgreSQL, FastAPI, React frontend</li>
+  <li>Environment variables stored in <code>.env</code> (<code>.env.example</code> provided)</li>
+  <li>Startup command: <code>docker-compose up</code></li>
+  <li>Automatic database initialization with sample data</li>
+</ul>
+
 </body>
-</html>
+
